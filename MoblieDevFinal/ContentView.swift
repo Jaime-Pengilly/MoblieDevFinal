@@ -7,6 +7,7 @@
 //28b2645ca3540740ee85279d75572bb2
 import SwiftUI
 import Foundation
+
 struct Movie: Decodable {
     let id: Int
     let title: String
@@ -103,7 +104,7 @@ struct ContentView: View {
             // Replace this with your actual network call
             let mockData = """
             {
-                "results": [
+             "results": [
                     {
                         "id": 502356,
                         "title": "The Super Mario Bros. Movie",
@@ -111,7 +112,14 @@ struct ContentView: View {
                         "release_date": "2023-04-05",
                         "vote_average": 7.5,
                         "vote_count": 1456
-                        // Other movie objects here...
+                    },
+                    {
+                        "id": 594767,
+                        "title": "Shazam! Fury of the Gods",
+                        "overview": "Billy Batson and his foster siblings, who transform into superheroes by saying \"Shazam!\", are forced to get back into action and fight the Daughters of Atlas, who they must stop from using a weapon that could destroy the world.",
+                        "release_date": "2023-03-15",
+                        "vote_average": 6.9,
+                        "vote_count": 1231
                     }
                 ]
             }
