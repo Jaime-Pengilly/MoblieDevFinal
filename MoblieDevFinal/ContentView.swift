@@ -7,141 +7,77 @@
 //28b2645ca3540740ee85279d75572bb2
 import SwiftUI
 import Foundation
-
-struct Movie: Decodable {
+import Combine
+struct Movie: Codable, Identifiable, Hashable {
+    
     let id: Int
     let title: String
     let overview: String
-    let releaseDate: String
-    let posterPath: String?
-    let backdropPath: String?
-    let voteAverage: Double
-    let voteCount: Int
+    let poster_path: String?
+    let backdrop_path: String?
+    let vote_average: Double
+    
+    init(id: Int, title: String, overview: String, poster_path: String, backdrop_path: String, vote_average: Double) {
+        self.id = id
+        self.title = title
+        self.overview = overview
+        self.poster_path = poster_path
+        self.backdrop_path = backdrop_path
+        self.vote_average = vote_average
+    }
 }
-
+//func getNowPlayingMovies(toUrl url: URL) -> AnyPublisher<[Movie], Error> {
+//    guard let requestUrl = URL(string: url.absoluteString + "28b2645ca3540740ee85279d75572bb2") else {
+//        return Fail(error: NSError(domain: "Invalid url", code: 0)).eraseToAnyPublisher()
+//    }
+//    let request = URLRequest(url: requestUrl, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+//    
+//    return URLSession.shared.dataTaskPublisher(for: request)
+//        .map({ $0.data })
+//        .decode(type: MovieResults.self, decoder: JSONDecoder())
+//        .map({ $0.results })
+//        .eraseToAnyPublisher()
+//}
+func apicall() async throws -> Movie{
+        guard let apiURL =
+                URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=28b2645ca3540740ee85279d75572bb2") else{
+            throw UserError.invalidURL
+        }
+        var request = URLRequest(url:apiURL)
+        request.httpMethod = "GET"
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let movie = try JSONDecoder().decode(Movie.self, from: data)
+        print(movie)
+}
+enum UserError: Error{
+    case invalidURL
+    case decodingFailed
+}
 struct ContentView: View {
-    @State private var movies: [Movie] = []
-    @State private var isLoading: Bool = true
+    @State private var responseData: String = ""
 
     var body: some View {
         VStack {
-            if isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .padding()
-            } else {
-                ScrollView {
-                    ForEach(movies, id: \.id) { movie in
-                        VStack(alignment: .leading) {
-                            Text(movie.title)
-                                .font(.title)
-                                .padding(.bottom, 4)
-                            
-                            Text(movie.overview)
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                            
-                            Text("Release Date: \(movie.releaseDate)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .padding(.bottom, 4)
-                            
-                            HStack {
-                                Spacer()
-                                Text("Average Rating: \(movie.voteAverage)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                Text("Vote Count: \(movie.voteCount)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                        .padding()
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                        .padding(.vertical, 4)
-                    }
-                }
-            }
-        }
-        .padding()
-        .onAppear {
-            // Fetch movie data when the view appears
-            fetchData()
-        }
-    }
+            Text("Response: \(responseData)")
+            Button("Fetch Data") {
+                do {
+                                        responseData = try await apicall()
+                                    } catch {
+                                        // Handle error
+                                        print("Error: \(error)")
+                                    }
+                           }
+                           // Call getNowPlayingMovies without a trailing closure
 
-    private func fetchData() {
-        // Define the query items
-        let queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "page", value: "1"),
-        ]
-
-        // Construct the URL
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.themoviedb.org"
-        components.path = "/3/movie/now_playing"
-        components.queryItems = queryItems
-
-        guard let url = components.url else {
-            print("Invalid URL")
-            return
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.timeoutInterval = 10
-        request.allHTTPHeaderFields = [
-            "accept": "application/json",
-            "Authorization": "Bearer 28b2645ca3540740ee85279d75572bb2"
-        ]
-
-        // Simulating asynchronous network call by using DispatchQueue
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            // Replace this with your actual network call
-            let mockData = """
-            {
-             "results": [
-                    {
-                        "id": 502356,
-                        "title": "The Super Mario Bros. Movie",
-                        "overview": "While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.",
-                        "release_date": "2023-04-05",
-                        "vote_average": 7.5,
-                        "vote_count": 1456
-                    },
-                    {
-                        "id": 594767,
-                        "title": "Shazam! Fury of the Gods",
-                        "overview": "Billy Batson and his foster siblings, who transform into superheroes by saying \"Shazam!\", are forced to get back into action and fight the Daughters of Atlas, who they must stop from using a weapon that could destroy the world.",
-                        "release_date": "2023-03-15",
-                        "vote_average": 6.9,
-                        "vote_count": 1231
-                    }
-                ]
-            }
-            """
-            let jsonData = Data(mockData.utf8)
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(MovieResponse.self, from: jsonData)
-                self.movies = response.results
-                self.isLoading = false
-            } catch {
-                print("Error decoding JSON: \(error)")
             }
         }
     }
+
+
+#Preview {
+    ContentView()
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
 
 struct MovieResponse: Decodable {
     let results: [Movie]

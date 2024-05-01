@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD15343E2BE14C9A00E35B3B /* API_Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD15343D2BE14C9A00E35B3B /* API_Call.swift */; };
+		FD29C1DE2BE288930046426B /* stuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD29C1DD2BE288930046426B /* stuff.swift */; };
 		FDC473162BDFD512002DB689 /* MoblieDevFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC473152BDFD512002DB689 /* MoblieDevFinalApp.swift */; };
 		FDC473182BDFD512002DB689 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC473172BDFD512002DB689 /* ContentView.swift */; };
 		FDC4731A2BDFD513002DB689 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDC473192BDFD513002DB689 /* Assets.xcassets */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD15343D2BE14C9A00E35B3B /* API_Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_Call.swift; sourceTree = "<group>"; };
+		FD29C1DD2BE288930046426B /* stuff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stuff.swift; sourceTree = "<group>"; };
 		FDC473122BDFD512002DB689 /* MoblieDevFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoblieDevFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC473152BDFD512002DB689 /* MoblieDevFinalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoblieDevFinalApp.swift; sourceTree = "<group>"; };
 		FDC473172BDFD512002DB689 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +57,8 @@
 			children = (
 				FDC473152BDFD512002DB689 /* MoblieDevFinalApp.swift */,
 				FDC473172BDFD512002DB689 /* ContentView.swift */,
+				FD15343D2BE14C9A00E35B3B /* API_Call.swift */,
+				FD29C1DD2BE288930046426B /* stuff.swift */,
 				FDC473192BDFD513002DB689 /* Assets.xcassets */,
 				FDC4731B2BDFD513002DB689 /* Preview Content */,
 			);
@@ -138,6 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDC473182BDFD512002DB689 /* ContentView.swift in Sources */,
+				FD29C1DE2BE288930046426B /* stuff.swift in Sources */,
+				FD15343E2BE14C9A00E35B3B /* API_Call.swift in Sources */,
 				FDC473162BDFD512002DB689 /* MoblieDevFinalApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
