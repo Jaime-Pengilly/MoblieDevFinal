@@ -3,7 +3,7 @@ import Foundation
 
 struct MovieCard: View {
     @Environment(\.dismiss) var dismiss
-    let movie: Movie
+    @Binding var movie: Movie
     var body: some View {
         VStack {
             Text("Movie Details")

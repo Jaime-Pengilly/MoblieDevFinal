@@ -24,7 +24,7 @@ struct MovieResponse: Decodable {
 
 struct ContentView: View {
     @State var movies: [Movie] = []
-    @State var selectedMovie = index
+    @State var selectedMovie = Movie(id: 43543, title: "", overview: "", poster_path: "", backdrop_path: "", vote_average: 0.03)
     @State var showMovieCard = false
 
     var body: some View {
@@ -38,7 +38,7 @@ struct ContentView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .onTapGesture {
-                                selectedMovie = movies.index
+                                selectedMovie = movie.self
                                 print(selectedMovie)
                                     showMovieCard.toggle()
                             }
@@ -56,10 +56,10 @@ struct ContentView: View {
                 print("EGG")
             }
         }
-//        .sheet(isPresented: $showMovieCard){
-//            MovieCard(movie: movies[selectedMovie])
-//            
-//        }
+        .sheet(isPresented: $showMovieCard){
+           MovieCard(movie: $selectedMovie)
+            
+        }
     }
     
     func fetchData() {
