@@ -24,12 +24,13 @@ struct MovieCard: View {
             }) {
                 Text("Done")
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .padding()
-                    .background(Color.blue)
-                    .cornerRadius(10)
+                    .background(Color.white)
+                    .cornerRadius(600)
             }
-        }
+        }.foregroundColor(.white)
+            .background(Color.black)
         .padding()
     }
 }

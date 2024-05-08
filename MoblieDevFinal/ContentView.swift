@@ -28,37 +28,44 @@ struct ContentView: View {
     @State var showMovieCard = false
 
     var body: some View {
-        VStack {
-            List(movies) { movie in
-                Text(movie.title)
-                if let backdropPath = movie.backdrop_path {
-                    let imageURL = URL(string: "https://image.tmdb.org/t/p/w500\(backdropPath)")
-                    if let imageData = try? Data(contentsOf: imageURL!) {
-                        Image(uiImage: UIImage(data: imageData)!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .onTapGesture {
-                                selectedMovie = movie.self
-                                print(selectedMovie)
-                                    showMovieCard.toggle()
+        ZStack{
+            Color.black.ignoresSafeArea()
+            VStack {
+                List(movies) { movie in
+                    VStack{
+                        if let backdropPath = movie.backdrop_path {
+                            let imageURL = URL(string: "https://image.tmdb.org/t/p/w500\(backdropPath)")
+                            if let imageData = try? Data(contentsOf: imageURL!) {
+                                Image(uiImage: UIImage(data: imageData)!)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .onTapGesture {
+                                        selectedMovie = movie.self
+                                        print(selectedMovie)
+                                        showMovieCard.toggle()
+                                    }
+                                
+                            } else {
+                                Text("Image not found")
                             }
-                    } else {
-                        Text("Image not found")
+                        } else {
+                            Text("No image available")
+                        }
+                        HStack{
+                            Text(movie.title)
+                            Text("\(String(format:"%.02f", movie.vote_average*10))")
+                        }.foregroundStyle(Color.white)
+                    }.listRowBackground(Color.black)
+                }.background(Color.black)
+                    Button("Fetch Data") {
+                        fetchData()
                     }
-                } else {
-                    Text("No image available")
-                }
+                
             }
-
-            
-            Button("Fetch Data") {
-                fetchData()
-                print("EGG")
+            .sheet(isPresented: $showMovieCard){
+                MovieCard(movie: $selectedMovie)
+                
             }
-        }
-        .sheet(isPresented: $showMovieCard){
-           MovieCard(movie: $selectedMovie)
-            
         }
     }
     
