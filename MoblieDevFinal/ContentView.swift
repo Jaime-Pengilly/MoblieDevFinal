@@ -60,6 +60,12 @@ struct ContentView: View {
                     Button("Fetch Data") {
                         fetchData()
                     }
+                    .font(.title)
+                    .foregroundColor(.black)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(600)
+            
                 
             }
             .sheet(isPresented: $showMovieCard){
