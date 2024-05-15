@@ -4,7 +4,7 @@
 //
 //  Created by PENGILLY, JAIME on 4/29/24.
 //
-//28b2645ca3540740ee85279d75572bb2
+//
 
 import SwiftUI
 import Foundation
@@ -76,7 +76,7 @@ struct ContentView: View {
     }
     
     func fetchData() {
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=28b2645ca3540740ee85279d75572bb2") else {
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=") else {
             print("Invalid URL")
             return
         }
